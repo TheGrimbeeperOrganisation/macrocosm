@@ -118,7 +118,8 @@ public abstract partial class SharedDefibrillatorSystem : EntitySystem
             return false;
 
         _audio.PlayPredicted(ent.Comp.ChargeSound, ent.Owner, user);
-        _popup.PopupEntity(Loc.GetString("defibrillator-begin", ("name", Identity.Entity(user, EntityManager)), ("target", Identity.Entity(target, EntityManager))), target, PopupType.SmallCaution);
+        if (ent.Comp.ShowMessages) //MACRO edit: _popup changed to conditional on ShowMessages
+            _popup.PopupEntity(Loc.GetString("defibrillator-begin", ("name", Identity.Entity(user, EntityManager)), ("target", Identity.Entity(target, EntityManager))), target, PopupType.SmallCaution);
 
         return _doAfter.TryStartDoAfter(
             new DoAfterArgs(EntityManager, user, ent.Comp.DoAfterDuration, new DefibrillatorZapDoAfterEvent(),
